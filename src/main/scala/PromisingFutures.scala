@@ -31,6 +31,8 @@ class PromisingFutures {
     case Failure(throwable) => println(s"Failure $throwable")
   }
 
+  def printWithForEach[T](future: Future[T]): Unit = future.foreach(println)
+
   def checkState(): Unit = {
     println("Before the job finishes")
     Thread.sleep(500)
@@ -47,25 +49,16 @@ class PromisingFutures {
 case class SomeComputationException(msg: String) extends Exception(msg)
 
 
-object PromisingFutures extends ConcurrentUtils {
+object PromisingFutures {
 
   def main(args: Array[String]) {
     val promisingFutures = new PromisingFutures
     //promisingFutures.checkState()
     promisingFutures.printFuture(promisingFutures.oneFuture)
+    promisingFutures.printWithForEach(promisingFutures.oneFuture)
     promisingFutures.printFuture(promisingFutures.oneDangerousFuture)
+    promisingFutures.printWithForEach(promisingFutures.oneDangerousFuture)
 
     synchronized(wait(3000))
-  }
-}
-
-
-trait ConcurrentUtils {
-  def timed[T](block: => T): T = {
-    val start = System.currentTimeMillis()
-    val result = block
-    val duration = System.currentTimeMillis() - start
-    println(s"Time taken : $duration")
-    result
   }
 }

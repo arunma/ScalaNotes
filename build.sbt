@@ -4,4 +4,7 @@ version := "1.0"
 
 scalaVersion := "2.11.8"
 
-libraryDependencies  += "org.scalatest" %% "scalatest" % "2.2.4" % "test"
+libraryDependencies ++= Seq(
+  "org.scala-lang.modules" %% "scala-async" % "0.9.5",
+  "org.scalatest" %% "scalatest" % "2.2.4" % "test"
+)
